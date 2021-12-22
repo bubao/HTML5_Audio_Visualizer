@@ -3,7 +3,7 @@
  * @author: bubao
  * @Date: 2021-12-22 16:38:07
  * @LastEditors: bubao
- * @LastEditTime: 2021-12-23 01:16:50
+ * @LastEditTime: 2021-12-23 01:20:46
  */
 class wave {
 	constructor() {
@@ -84,18 +84,10 @@ class wave {
 			// this._updateInfo('!Your browser does not support AudioContext', false);
 			console.log(e);
 		}
-		// 	this.analyser = this.audioContext.createAnalyser();
-
-		// this.distortion = this.audioContext.createWaveShaper();
-		// 	this.gainNode = this.audioContext.createGain();
-		var that = this,
-			audioInput = document.getElementById('uploadedFile');
 
 		if (navigator.getUserMedia) {
-			var audioContext = this.audioContext;
 
 			console.log('浏览器支持getUserMedia');
-			// apiMedia.className = "checked";
 			navigator.mediaDevices.getUserMedia(
 				// 我们只获取麦克风数据，这里还可以设置video为true来获取摄像头数据
 				{
@@ -103,7 +95,6 @@ class wave {
 					audio: true
 				}).then((stream) => {
 					this.audioContext = new AudioContext();
-					// console.log("xxxx")
 					let inputPoint = this.audioContext.createGain();
 					this.realAudioInput = this.audioContext.createMediaStreamSource(stream);
 					this.realAudioInput.connect(inputPoint);
