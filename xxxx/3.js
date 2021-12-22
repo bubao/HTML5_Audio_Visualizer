@@ -3,13 +3,17 @@
  * @author: bubao
  * @Date: 2021-12-22 16:38:07
  * @LastEditors: bubao
- * @LastEditTime: 2021-12-23 00:59:46
+ * @LastEditTime: 2021-12-23 01:16:50
  */
 class wave {
 	constructor() {
 		this.c = document.getElementById("study");
 		this.ctx = this.c.getContext("2d");
 		const ctx = this.ctx
+		this.height = 360
+		this.weight = 600
+		let height = this.height
+		let weight = this.weight
 		this.dong = 1
 		this.time = 1000 / 60
 		this.cango;
@@ -47,12 +51,12 @@ class wave {
 				var change = false;
 				//中点计算
 				var count = cp.yh;
-				for (var i = cp.s; i * cp.xw - cp.xw * cp.s + star.x < 600; i += 0.1) {
+				for (var i = cp.s; i * cp.xw - cp.xw * cp.s + star.x < weight+30; i += 0.1) {
 					count += 0.5;
 				}
 				var center = parseInt(count / 2);
 				//三角函数曲线
-				for (let i = cp.s; i * cp.xw - cp.xw * cp.s + star.x < 630; i += 0.1) {
+				for (let i = cp.s; i * cp.xw - cp.xw * cp.s + star.x < weight+30; i += 0.1) {
 					if (change === false && cp.yh < center) { cp.yh += 0.5; }
 					if (change === false && cp.yh === center) { change = true; cp.yh -= 0.5; }
 					if (change === true && cp.yh < center) { cp.yh -= 0.5; }
@@ -67,7 +71,7 @@ class wave {
 		}
 
 		//背景填充
-		this.Drawing.ract([0, 0], [600, 360], "#333333");
+		this.Drawing.ract([0, 0], [this.weight, this.height], "#333333");
 		window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
 		navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
 
@@ -128,18 +132,20 @@ class wave {
 	cwave(ad1 = 0,ad2 =0) {
 		var adjust1;
 		var adjust2;
-		ad1 == 0 ? adjust1 = 240 : adjust1 = (ad1 >= 250) ? 7 : 100 - ((ad1 / 250) * 100)+7;
-		ad2 == 0 ? adjust2 = 240 : adjust2 = (ad2 >= 250) ? 7 : 100 - ((ad2 / 250) * 100)+7;
-		this.ctx.clearRect(0, 130, 600, 360);
-		this.Drawing.ract([0, 130], [600, 360], "#333333");
+		let height = this.height
+		let weight = this.weight
+		ad1 == 0 ? adjust1 = 250 : adjust1 = (ad1 >= height) ? 7 : 100 - ((ad1 / height) * 100)+7;
+		ad2 == 0 ? adjust2 = 250 : adjust2 = (ad2 >= height) ? 7 : 100 - ((ad2 / height) * 100)+7;
+		this.ctx.clearRect(0, 0, weight, height);
+		this.Drawing.ract([0, 0], [weight, height], "#333333");
 		if (this.dong === 1) { this.cango = false; }
 		if (!this.cango && this.dong < 3) { this.dong += 1; }
 		if (this.dong === 3) { this.cango = true; }
 		if (this.cango && this.dong <= 3) { this.dong -= 1; }
 		this.time=(this.time+1)%(40*2*3);
 
-		this.Drawing.triCurve("sin", { x: 0, y: 238 }, { xw: this.f(adjust2), yh: 5 * (1 + this.dong / 10), angle: Math.PI /3, s: this.time / 10 }, "orange");
-		this.Drawing.triCurve("cos", { x: 0, y: 238 }, { xw: this.f(adjust1), yh: 5 * (1 + this.dong / 10), angle: Math.PI / 2, s: this.time / 10 }, "red");
+		this.Drawing.triCurve("sin", { x: 0, y: height/2 }, { xw: this.f(adjust2), yh: 5 * (1 + this.dong / 10), angle: Math.PI /3, s: this.time / 10 }, "orange");
+		this.Drawing.triCurve("cos", { x: 0, y: height/2 }, { xw: this.f(adjust1), yh: 5 * (1 + this.dong / 10), angle: Math.PI / 2, s: this.time / 10 }, "red");
 	}
 
 	rad(deg) {
